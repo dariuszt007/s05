@@ -19,12 +19,11 @@
   --secondary-hover: #75757a;
   --shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   --radius: 12px;
-  --topbar-height-desktop: 190px;
-  --topbar-height-tablet: 220px;
-  --topbar-height-mobile: 210px;
-  --table-header-top-desktop: 0px;
-  --table-header-top-tablet: 0px;
-  --table-header-top-mobile: 146px;
+
+  /* wysokość sticky obszaru nad tabelą */
+  --sticky-offset-desktop: 150px;
+  --sticky-offset-tablet: 170px;
+  --sticky-offset-mobile: 150px;
 }
 
 html,
@@ -95,7 +94,7 @@ body {
 .topbar {
   position: sticky;
   top: 0;
-  z-index: 40;
+  z-index: 50;
   background: var(--bg);
   padding-bottom: 8px;
 }
@@ -192,7 +191,7 @@ select {
   border-radius: var(--radius);
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
-  max-height: calc(100dvh - var(--topbar-height-desktop));
+  max-height: calc(100dvh - var(--sticky-offset-desktop) - 20px);
   -webkit-overflow-scrolling: touch;
 }
 
@@ -213,8 +212,8 @@ td {
 th {
   background: #f8fafc;
   position: sticky;
-  top: var(--table-header-top-desktop);
-  z-index: 30;
+  top: var(--sticky-offset-desktop);
+  z-index: 45;
   white-space: nowrap;
 }
 
@@ -370,6 +369,10 @@ dialog::backdrop {
 }
 
 @media (max-width: 900px) {
+  :root {
+    --sticky-offset-tablet: 180px;
+  }
+
   .app {
     padding: 8px 10px 10px;
   }
@@ -385,11 +388,11 @@ dialog::backdrop {
   }
 
   .table-wrap {
-    max-height: calc(100dvh - var(--topbar-height-tablet));
+    max-height: calc(100dvh - var(--sticky-offset-tablet) - 20px);
   }
 
   th {
-    top: var(--table-header-top-tablet);
+    top: var(--sticky-offset-tablet);
   }
 
   table {
@@ -399,8 +402,7 @@ dialog::backdrop {
 
 @media (max-width: 520px) {
   :root {
-    --topbar-height-mobile: 206px;
-    --table-header-top-mobile: 150px;
+    --sticky-offset-mobile: 150px;
   }
 
   .app {
@@ -473,12 +475,12 @@ dialog::backdrop {
   }
 
   .table-wrap {
-    max-height: calc(100dvh - var(--topbar-height-mobile));
+    max-height: calc(100dvh - var(--sticky-offset-mobile) - 12px);
   }
 
   th {
-    top: var(--table-header-top-mobile);
-    z-index: 35;
+    top: var(--sticky-offset-mobile);
+    z-index: 45;
   }
 
   th,
