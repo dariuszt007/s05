@@ -22,6 +22,9 @@
   --topbar-height-desktop: 190px;
   --topbar-height-tablet: 220px;
   --topbar-height-mobile: 210px;
+  --table-header-top-desktop: 0px;
+  --table-header-top-tablet: 0px;
+  --table-header-top-mobile: 146px;
 }
 
 html,
@@ -210,7 +213,7 @@ td {
 th {
   background: #f8fafc;
   position: sticky;
-  top: 0;
+  top: var(--table-header-top-desktop);
   z-index: 30;
   white-space: nowrap;
 }
@@ -385,6 +388,10 @@ dialog::backdrop {
     max-height: calc(100dvh - var(--topbar-height-tablet));
   }
 
+  th {
+    top: var(--table-header-top-tablet);
+  }
+
   table {
     min-width: 1120px;
   }
@@ -392,7 +399,8 @@ dialog::backdrop {
 
 @media (max-width: 520px) {
   :root {
-    --topbar-height-mobile: 190px;
+    --topbar-height-mobile: 206px;
+    --table-header-top-mobile: 150px;
   }
 
   .app {
@@ -418,8 +426,38 @@ dialog::backdrop {
     padding: 7px 10px;
   }
 
-  .toolbar,
   .filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "type device"
+      "grade class"
+      "search search";
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .filters > *:nth-child(1) {
+    grid-area: type;
+  }
+
+  .filters > *:nth-child(2) {
+    grid-area: grade;
+  }
+
+  .filters > *:nth-child(3) {
+    grid-area: class;
+  }
+
+  .filters > *:nth-child(4) {
+    grid-area: device;
+  }
+
+  .filters > *:nth-child(5) {
+    grid-area: search;
+  }
+
+  .toolbar {
     grid-template-columns: 1fr;
     gap: 6px;
     margin-bottom: 6px;
@@ -436,6 +474,11 @@ dialog::backdrop {
 
   .table-wrap {
     max-height: calc(100dvh - var(--topbar-height-mobile));
+  }
+
+  th {
+    top: var(--table-header-top-mobile);
+    z-index: 35;
   }
 
   th,
