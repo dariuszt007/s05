@@ -173,9 +173,9 @@ function syncJsonEditor() {
 }
 
 function populateFilterOptionsFromCurrentTeachers() {
-  fillSelect(filterType, "タイプ / wszystkie", uniqueValues(teachers, "type"));
-  fillSelect(filterGrade, "年 / wszystkie", uniqueValues(teachers, "grade"));
-  fillSelect(filterClass, "組 / wszystkie", uniqueValues(teachers, "className"));
+  fillSelect(filterType, "タイプ", uniqueValues(teachers, "type"));
+  fillSelect(filterGrade, "年", uniqueValues(teachers, "grade"));
+  fillSelect(filterClass, "組", uniqueValues(teachers, "className"));
 }
 
 function uniqueValues(data, key) {
