@@ -1,5 +1,5 @@
 const MOBILE_WIDTH = 520;
-const PASSWORD = "1234";
+const PASSWORD = "s05suita";
 
 const loginScreen = document.getElementById("loginScreen");
 const appContent = document.getElementById("appContent");
