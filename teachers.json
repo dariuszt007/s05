@@ -132,6 +132,61 @@
     "remarks": "画面が破損しており、本体も曲がっています。"
   },
   {
+    "email": "13",
+    "name": "旧予備機",
+    "type": "予備機",
+    "grade": "",
+    "className": "",
+    "ban": "",
+    "deviceNumber": "",
+    "usageStatus": "使用不可",
+    "remarks": ""
+  },
+  {
+    "email": "14",
+    "name": "旧予備機",
+    "type": "予備機",
+    "grade": "",
+    "className": "",
+    "ban": "",
+    "deviceNumber": "",
+    "usageStatus": "使用不可",
+    "remarks": ""
+  },
+  {
+    "email": "15",
+    "name": "旧予備機",
+    "type": "予備機",
+    "grade": "",
+    "className": "",
+    "ban": "",
+    "deviceNumber": "",
+    "usageStatus": "使用不可",
+    "remarks": ""
+  },
+  {
+    "email": "16",
+    "name": "旧予備機",
+    "type": "予備機",
+    "grade": "",
+    "className": "",
+    "ban": "",
+    "deviceNumber": "",
+    "usageStatus": "使用不可",
+    "remarks": ""
+  },
+  {
+    "email": "17",
+    "name": "旧予備機",
+    "type": "予備機",
+    "grade": "",
+    "className": "",
+    "ban": "",
+    "deviceNumber": "",
+    "usageStatus": "使用不可",
+    "remarks": ""
+  },
+  {
     "email": "1",
     "name": "新予備機",
     "type": "予備機",
@@ -305,6 +360,17 @@
     "ban": "",
     "deviceNumber": "70445",
     "usageStatus": "使用可",
+    "remarks": ""
+  },
+  {
+    "email": "17",
+    "name": "新予備機",
+    "type": "予備機",
+    "grade": "",
+    "className": "",
+    "ban": "",
+    "deviceNumber": "",
+    "usageStatus": "使用不可",
     "remarks": ""
   },
   {
