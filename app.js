@@ -107,7 +107,7 @@ function loadTeachersFromLocal() {
 
 async function loadTeachersFromJson() {
   try {
-    const response = await fetch("teachers.json", { cache: "no-store" });
+    const response = await fetch("s05.json", { cache: "no-store" });
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }
@@ -120,7 +120,7 @@ async function loadTeachersFromJson() {
       teachers = [];
     }
   } catch (error) {
-    console.error("Błąd wczytywania teachers.json:", error);
+    console.error("Błąd wczytywania s05.json:", error);
     teachers = [];
   }
 }
