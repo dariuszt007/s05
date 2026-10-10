@@ -545,8 +545,8 @@ function exportCsv() {
 function downloadSampleCsv() {
   const sampleRows = [
     ["email", "name", "type", "grade", "className", "ban", "deviceNumber", "usageStatus", "remarks"],
-    ["sample1@example.com", "山田 太郎", "児童・生徒", "1", "A", "1", "1001", "使用可", "サンプル"],
-    ["sample2@example.com", "佐藤 花子", "予備機", "", "", "", "2001", "使用不可", "予備"]
+    ["○○○○@o365.suita.ed.jp", "○○ ○○", "児童・生徒", "1", "1", "1", "12345", "使用可", "サンプル"],
+    ["1", "新予備機", "予備機", "", "", "", "2001", "使用不可", ""]
   ];
 
   const csv = sampleRows.map(row => row.map(toCsvValue).join(",")).join("\n");
