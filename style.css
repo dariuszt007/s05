@@ -590,3 +590,11 @@ dialog::backdrop {
     min-height: 180px;
   }
 }
+
+tr[draggable="true"] {
+  cursor: move;
+}
+
+tr.dragging {
+  opacity: 0.45;
+}
