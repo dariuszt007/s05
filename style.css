@@ -1,0 +1,417 @@
+:root {
+  --bg: #f5f7fb;
+  --panel: #ffffff;
+  --panel-2: #f8fafc;
+  --line: #d9e0ea;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --danger: #dc2626;
+  --danger-hover: #b91c1c;
+  --success-bg: #e8f7ee;
+  --success-text: #1e7a46;
+  --warn-bg: #fff4e5;
+  --warn-text: #a16207;
+  --duplicate-bg: #fff1f2;
+  --duplicate-text: #b42318;
+  --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --radius: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Login */
+.login-screen {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+.login-card h1 {
+  margin: 0 0 12px;
+  font-size: 28px;
+}
+
+.login-text {
+  margin: 0 0 20px;
+  color: var(--muted);
+}
+
+.login-form {
+  display: grid;
+  gap: 14px;
+}
+
+.login-form label {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.login-error {
+  margin: 0;
+  color: var(--danger);
+  font-size: 14px;
+}
+
+/* App */
+.app {
+  padding: 20px;
+  display: grid;
+  gap: 20px;
+}
+
+.list-panel,
+.editor {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.list-panel {
+  overflow: hidden;
+}
+
+.topbar {
+  padding: 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel-2);
+}
+
+.topbar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.sync-status {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.hidden-toolbar {
+  display: none;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+/* Inputs/buttons */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+.file-label {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  padding: 10px 14px;
+}
+
+button {
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+button:hover {
+  border-color: var(--primary);
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  padding: 10px 12px;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: 2px solid rgba(37, 99, 235, 0.18);
+  outline-offset: 1px;
+}
+
+.file-label {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-toolbar-btn {
+  white-space: nowrap;
+}
+
+/* Table */
+.table-wrap {
+  width: 100%;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1100px;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background: #f8fafc;
+  z-index: 1;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+  padding: 12px 10px;
+  font-size: 14px;
+}
+
+tbody tr:hover {
+  background: #fafcff;
+}
+
+tr[draggable="true"] {
+  cursor: move;
+}
+
+tr.dragging {
+  opacity: 0.45;
+}
+
+.sort-btn {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  text-align: left;
+  min-height: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.sort-btn:hover {
+  color: var(--primary);
+  border-color: transparent;
+}
+
+/* Badges */
+.type-badge,
+.usage-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.type-spare {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.type-student {
+  background: #ecfeff;
+  color: #0f766e;
+}
+
+.status-available {
+  background: var(--success-bg);
+  color: var(--success-text);
+}
+
+.status-unavailable {
+  background: var(--warn-bg);
+  color: var(--warn-text);
+}
+
+.device-cell.duplicate-device {
+  background: var(--duplicate-bg);
+  color: var(--duplicate-text);
+  font-weight: 700;
+}
+
+/* Action buttons */
+.action-btn {
+  min-height: 34px;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.edit-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.delete-btn:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* JSON editor */
+.editor {
+  padding: 16px;
+}
+
+.editor h2 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+
+#jsonOutput {
+  min-height: 320px;
+  resize: vertical;
+  font-family: Consolas, Monaco, "Courier New", monospace;
+  line-height: 1.45;
+}
+
+/* Dialog */
+dialog {
+  border: none;
+  border-radius: 16px;
+  padding: 0;
+  width: min(92vw, 560px);
+  max-width: 560px;
+  background: transparent;
+}
+
+dialog::backdrop {
+  background: rgba(15, 23, 42, 0.45);
+}
+
+#teacherForm {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  display: grid;
+  gap: 14px;
+}
+
+#teacherForm h3 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+#teacherForm label {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .filters {
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .app {
+    padding: 12px;
+  }
+
+  .topbar {
+    padding: 12px;
+  }
+
+  .topbar-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .toolbar {
+    flex-direction: column;
+  }
+
+  .toolbar button,
+  .toolbar .file-label {
+    width: 100%;
+  }
+
+  .filters {
+    grid-template-columns: 1fr;
+  }
+
+  .dialog-actions {
+    flex-direction: column-reverse;
+  }
+
+  .dialog-actions button {
+    width: 100%;
+  }
+}
