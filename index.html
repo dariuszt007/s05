@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+  <title>Lista</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <h1>Lista 吹田南（小）</h1>
+      <p class="login-text">Ta strona jest chroniona hasłem.</p>
+
+      <form id="loginForm" class="login-form">
+        <label>
+          Hasło
+          <input type="password" id="passwordInput" autocomplete="current-password" required />
+        </label>
+
+        <p id="loginError" class="login-error" hidden>Nieprawidłowe hasło.</p>
+
+        <button type="submit">Wejdź</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="app hidden" id="appContent">
+    <section class="list-panel">
+      <div class="topbar">
+        <div class="topbar-header">
+          <button type="button" id="toggleToolbarBtn" class="toggle-toolbar-btn">
+            Ukryj
+          </button>
+          <p id="syncStatus" class="sync-status" aria-live="polite"></p>
+        </div>
+
+        <div class="toolbar" id="toolbar">
+          <label class="file-label">
+            Import CSV
+            <input type="file" id="csvFile" accept=".csv,text/csv" hidden />
+          </label>
+
+          <button type="button" id="downloadSampleCsvBtn">Pobierz przykładowy CSV</button>
+          <button type="button" id="exportCsvBtn">Eksport CSV</button>
+          <button type="button" id="copyBtn">Kopiuj JSON</button>
+          <button type="button" id="reloadJsonBtn">Odśwież z JSON</button>
+          <button type="button" id="clearLocalBtn">Wyczyść localStorage</button>
+          <button type="button" id="addBtn">Dodaj</button>
+        </div>
+
+        <div class="filters">
+          <select id="filterType">
+            <option value="">タイプ</option>
+          </select>
+
+          <select id="filterGrade">
+            <option value="">年</option>
+          </select>
+
+          <select id="filterClass">
+            <option value="">組</option>
+          </select>
+
+          <select id="filterDuplicate">
+            <option value="">端末番号</option>
+            <option value="duplicate">duplikaty</option>
+            <option value="unique">unikalne</option>
+          </select>
+
+          <input
+            type="text"
+            id="filterName"
+            placeholder="Szukaj po imieniu, nazwisku, emailu, 番, 端末番号, 備考"
+          />
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th><button type="button" class="sort-btn" data-sort="email">Email</button></th>
+              <th><button type="button" class="sort-btn" data-sort="name">名前</button></th>
+              <th><button type="button" class="sort-btn" data-sort="type">タイプ</button></th>
+              <th><button type="button" class="sort-btn" data-sort="grade">年</button></th>
+              <th><button type="button" class="sort-btn" data-sort="className">組</button></th>
+              <th><button type="button" class="sort-btn" data-sort="ban">番</button></th>
+              <th><button type="button" class="sort-btn" data-sort="deviceNumber">端末番号</button></th>
+              <th><button type="button" class="sort-btn" data-sort="usageStatus">使用可否</button></th>
+              <th><button type="button" class="sort-btn" data-sort="remarks">備考</button></th>
+              <th>Akcje</th>
+            </tr>
+          </thead>
+          <tbody id="teacherTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="editor">
+      <h2>Edytor JSON</h2>
+      <textarea id="jsonOutput" spellcheck="false"></textarea>
+    </div>
+  </div>
+
+  <dialog id="teacherDialog">
+    <form id="teacherForm">
+      <h3 id="dialogTitle">Dodaj nauczyciela</h3>
+
+      <input type="hidden" id="teacherId" />
+
+      <label>
+        Email / lgate
+        <input type="text" id="email" />
+      </label>
+
+      <label>
+        名前
+        <input type="text" id="name" />
+      </label>
+
+      <label>
+        タイプ
+        <select id="type">
+          <option value="予備機">予備機</option>
+          <option value="児童・生徒">児童・生徒</option>
+        </select>
+      </label>
+
+      <label>
+        年
+        <input type="text" id="grade" />
+      </label>
+
+      <label>
+        組
+        <input type="text" id="className" />
+      </label>
+
+      <label>
+        番
+        <input type="text" id="ban" inputmode="numeric" />
+      </label>
+
+      <label>
+        端末番号
+        <input type="text" id="deviceNumber" inputmode="numeric" />
+      </label>
+
+      <label>
+        使用可否
+        <select id="usageStatus">
+          <option value="使用可">使用可</option>
+          <option value="使用不可">使用不可</option>
+        </select>
+      </label>
+
+      <label>
+        備考
+        <input type="text" id="remarks" />
+      </label>
+
+      <div class="dialog-actions">
+        <button type="button" id="cancelBtn">Anuluj</button>
+        <button type="submit">Zapisz</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
