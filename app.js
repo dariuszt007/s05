@@ -673,7 +673,7 @@ function downloadSampleCsv() {
   const sampleRows = [
     ["email", "name", "type", "grade", "className", "ban", "deviceNumber", "usageStatus", "remarks"],
     ["○○○○@o365.suita.ed.jp", "○○ ○○", "児童・生徒", "1", "1", "1", "12345", "使用可", "サンプル"],
-    ["1", "新予備機", "予備機", "", "", "", "2001", "使用不可", ""]
+    ["1", "新予備機", "予備機", "", "", "", "12345", "使用不可", "サンプル"]
   ];
 
   const csv = sampleRows.map(row => row.map(toCsvValue).join(",")).join("\n");
