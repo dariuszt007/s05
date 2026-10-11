@@ -153,6 +153,7 @@ async function reloadTeachersFromJson() {
   try {
     setSyncStatus("Ładowanie danych z JSON...");
     const data = await fetchTeachersJson(true);
+    console.log("NOWE DANE Z JSON:", data);
 
     clearTeachersLocal();
     teachers = data;
