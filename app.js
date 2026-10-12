@@ -153,19 +153,27 @@ async function reloadTeachersFromJson() {
   try {
     setSyncStatus("Ładowanie danych z JSON...");
     const data = await fetchTeachersJson(true);
-    console.log("NOWE DANE Z JSON:", data);
+
+    console.log("NOWE DANE Z teachers.json:", data);
 
     clearTeachersLocal();
-    teachers = data;
+    teachers = Array.isArray(data) ? [...data] : [];
     sortState = [];
     justAddedTeacher = null;
+
+    filterType.value = "";
+    filterGrade.value = "";
+    filterClass.value = "";
+    filterDuplicate.value = "";
+    filterName.value = "";
+
     saveTeachersToLocal();
     populateFilters();
     updateSortButtons();
     renderTable();
 
-    setSyncStatus("Dane z teachers.json zostały odświeżone.");
-    alert("Dane z teachers.json zostały odświeżone.");
+    setSyncStatus(`Wczytano ${teachers.length} rekordów z teachers.json.`);
+    alert(`Odświeżono dane z teachers.json. Wczytano ${teachers.length} rekordów.`);
   } catch (error) {
     console.error("Błąd odświeżania teachers.json:", error);
     setSyncStatus("Nie udało się odświeżyć danych z JSON.", true);
@@ -181,6 +189,13 @@ function clearLocalStorageData() {
   teachers = [];
   sortState = [];
   justAddedTeacher = null;
+
+  filterType.value = "";
+  filterGrade.value = "";
+  filterClass.value = "";
+  filterDuplicate.value = "";
+  filterName.value = "";
+
   populateFilters();
   updateSortButtons();
   renderTable();
@@ -633,6 +648,13 @@ function importCsv(text) {
   teachers = imported;
   sortState = [];
   justAddedTeacher = null;
+
+  filterType.value = "";
+  filterGrade.value = "";
+  filterClass.value = "";
+  filterDuplicate.value = "";
+  filterName.value = "";
+
   saveTeachersToLocal();
   populateFilters();
   updateSortButtons();
