@@ -2,6 +2,7 @@ const MOBILE_WIDTH = 520;
 const PASSWORD = "1234";
 const STORAGE_KEY = `teachersData_${location.host}_${location.pathname}`;
 const JSON_SOURCE_URL = "teachers.json";
+const RELOAD_SUCCESS_KEY = `teachersReloadSuccess_${location.host}_${location.pathname}`;
 
 const loginScreen = document.getElementById("loginScreen");
 const appContent = document.getElementById("appContent");
@@ -119,17 +120,24 @@ function loadTeachersFromLocal() {
   return false;
 }
 
-async function fetchTeachersJson(useCacheBuster = false) {
-  const url = useCacheBuster
-    ? `${JSON_SOURCE_URL}${JSON_SOURCE_URL.includes("?") ? "&" : "?"}t=${Date.now()}`
-    : JSON_SOURCE_URL;
+function buildJsonUrl(useCacheBuster = false) {
+  const url = new URL(JSON_SOURCE_URL, window.location.href);
+  if (useCacheBuster) {
+    url.searchParams.set("t", String(Date.now()));
+  }
+  return url.toString();
+}
 
-  const response = await fetch(url, { cache: "no-store" });
+async function fetchTeachersJson(useCacheBuster = false) {
+  const finalUrl = buildJsonUrl(useCacheBuster);
+  const response = await fetch(finalUrl, { cache: "no-store" });
+
   if (!response.ok) {
     throw new Error(`HTTP ${response.status}`);
   }
 
   const data = await response.json();
+
   if (!Array.isArray(data)) {
     throw new Error("teachers.json nie zawiera tablicy");
   }
@@ -152,9 +160,8 @@ async function loadTeachersFromJson() {
 async function reloadTeachersFromJson() {
   try {
     setSyncStatus("Ładowanie danych z JSON...");
-    const data = await fetchTeachersJson(true);
 
-    console.log("NOWE DANE Z teachers.json:", data);
+    const data = await fetchTeachersJson(true);
 
     clearTeachersLocal();
     teachers = Array.isArray(data) ? [...data] : [];
@@ -168,12 +175,13 @@ async function reloadTeachersFromJson() {
     filterName.value = "";
 
     saveTeachersToLocal();
+    localStorage.setItem(RELOAD_SUCCESS_KEY, `Odświeżono dane z JSON. Wczytano ${teachers.length} rekordów.`);
+
     populateFilters();
     updateSortButtons();
     renderTable();
 
-    setSyncStatus(`Wczytano ${teachers.length} rekordów z teachers.json.`);
-    alert(`Odświeżono dane z teachers.json. Wczytano ${teachers.length} rekordów.`);
+    location.reload();
   } catch (error) {
     console.error("Błąd odświeżania teachers.json:", error);
     setSyncStatus("Nie udało się odświeżyć danych z JSON.", true);
@@ -873,6 +881,15 @@ function handleDragEnd() {
   });
 }
 
+function showReloadSuccessMessageIfNeeded() {
+  const message = localStorage.getItem(RELOAD_SUCCESS_KEY);
+  if (!message) return;
+
+  localStorage.removeItem(RELOAD_SUCCESS_KEY);
+  setSyncStatus(message);
+  alert(message);
+}
+
 async function init() {
   setSyncStatus("Uruchamianie...");
 
@@ -899,6 +916,7 @@ async function init() {
 
   updateSortButtons();
   applyResponsiveToolbarState();
+  showReloadSuccessMessageIfNeeded();
 }
 
 loginForm.addEventListener("submit", handleLogin);
