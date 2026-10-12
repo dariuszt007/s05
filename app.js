@@ -157,11 +157,51 @@ async function loadTeachersFromJson() {
   }
 }
 
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function stableStringify(value) {
+  return JSON.stringify(value);
+}
+
+async function fetchTeachersJsonWithRetry(previousTeachers, maxAttempts = 3, delayMs = 1200) {
+  let lastData = null;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    const data = await fetchTeachersJson(true);
+    lastData = data;
+
+    const changed = stableStringify(data) !== stableStringify(previousTeachers);
+
+    if (changed) {
+      return {
+        data,
+        attempt,
+        changed: true
+      };
+    }
+
+    if (attempt < maxAttempts) {
+      setSyncStatus(`Brak zmian po próbie ${attempt}. Ponawianie...`);
+      await delay(delayMs);
+    }
+  }
+
+  return {
+    data: lastData,
+    attempt: maxAttempts,
+    changed: false
+  };
+}
+
 async function reloadTeachersFromJson() {
   try {
     setSyncStatus("Ładowanie danych z JSON...");
 
-    const data = await fetchTeachersJson(true);
+    const previousTeachers = JSON.parse(JSON.stringify(teachers));
+    const result = await fetchTeachersJsonWithRetry(previousTeachers, 3, 1200);
+    const data = result.data;
 
     clearTeachersLocal();
     teachers = Array.isArray(data) ? [...data] : [];
@@ -175,7 +215,12 @@ async function reloadTeachersFromJson() {
     filterName.value = "";
 
     saveTeachersToLocal();
-    localStorage.setItem(RELOAD_SUCCESS_KEY, `Odświeżono dane z JSON. Wczytano ${teachers.length} rekordów.`);
+
+    const message = result.changed
+      ? `Odświeżono dane z JSON po ${result.attempt} próbie. Wczytano ${teachers.length} rekordów.`
+      : `Odświeżono dane z JSON, ale nie wykryto zmian po ${result.attempt} próbach. Wczytano ${teachers.length} rekordów.`;
+
+    localStorage.setItem(RELOAD_SUCCESS_KEY, message);
 
     populateFilters();
     updateSortButtons();
