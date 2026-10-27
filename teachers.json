@@ -61,9 +61,9 @@
     "grade": "",
     "className": "",
     "ban": "",
-    "deviceNumber": "45401",
-    "usageStatus": "使用可",
-    "remarks": ""
+    "deviceNumber": "01572",
+    "usageStatus": "使用不可",
+    "remarks": "10/22"
   },
   {
     "email": "7",
@@ -105,9 +105,9 @@
     "grade": "",
     "className": "",
     "ban": "",
-    "deviceNumber": "06294",
-    "usageStatus": "使用可",
-    "remarks": ""
+    "deviceNumber": "03577",
+    "usageStatus": "使用不可",
+    "remarks": "06294"
   },
   {
     "email": "11",
@@ -127,9 +127,9 @@
     "grade": "",
     "className": "",
     "ban": "",
-    "deviceNumber": "01559",
-    "usageStatus": "使用不可",
-    "remarks": "棚卸後に余剰端末を発見した。端末が曲がっている"
+    "deviceNumber": "36543",
+    "usageStatus": "使用可",
+    "remarks": ""
   },
   {
     "email": "13",
@@ -138,9 +138,9 @@
     "grade": "",
     "className": "",
     "ban": "",
-    "deviceNumber": "01985",
-    "usageStatus": "使用可",
-    "remarks": "2026年10月9日通信。確認中 (2026/07/15 4年4組15番 01985→01878)"
+    "deviceNumber": "01947",
+    "usageStatus": "使用不可",
+    "remarks": ""
   },
   {
     "email": "14",
@@ -185,17 +185,6 @@
     "deviceNumber": "45321",
     "usageStatus": "使用可",
     "remarks": ""
-  },
-  {
-    "email": "18",
-    "name": "旧予備機",
-    "type": "予備機",
-    "grade": "",
-    "className": "",
-    "ban": "",
-    "deviceNumber": "36543",
-    "usageStatus": "使用不可",
-    "remarks": "10/5回収申請 (2026/10/05 3年2組31番 36543→48578)"
   },
   {
     "email": "1",
@@ -1502,9 +1491,9 @@
     "grade": "1",
     "className": "3",
     "ban": "32",
-    "deviceNumber": "01572",
+    "deviceNumber": "45401",
     "usageStatus": "使用可",
-    "remarks": "Apple, Teams, Canva, L-Gateメモ"
+    "remarks": ""
   },
   {
     "email": "05195333@o365.suita.ed.jp",
@@ -3108,9 +3097,9 @@
     "grade": "3",
     "className": "2",
     "ban": "2",
-    "deviceNumber": "03577",
+    "deviceNumber": "06294",
     "usageStatus": "使用可",
-    "remarks": "Apple, Teams, Canva, L-Gateメモ, PowerPoint, OneDrive, Goodnotes, デジタル教科書"
+    "remarks": ""
   },
   {
     "email": "05173403@o365.suita.ed.jp",
@@ -4054,7 +4043,7 @@
     "grade": "4",
     "className": "1",
     "ban": "16",
-    "deviceNumber": "01947",
+    "deviceNumber": "01985",
     "usageStatus": "使用可",
     "remarks": ""
   },
