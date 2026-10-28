@@ -928,3 +928,49 @@ cancelBtn.addEventListener("click", () => {
 
 window.addEventListener("resize", applyResponsiveToolbarState);
 
+async function initAuth() {
+  try {
+    auth0Client = await auth0.createAuth0Client(auth0Config);
+
+    if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
+      await auth0Client.handleRedirectCallback();
+      window.history.replaceState({}, document.title, REPO_PATH);
+    }
+
+    const isAuthenticated = await auth0Client.isAuthenticated();
+
+    loginBtn.onclick = async () => {
+      try {
+        loginError.hidden = true;
+        await auth0Client.loginWithRedirect();
+      } catch (e) {
+        loginError.hidden = false;
+        loginError.textContent = "Błąd logowania: " + (e.message || "Spróbuj ponownie.");
+      }
+    };
+
+    logoutBtn.onclick = async () => {
+      await auth0Client.logout({
+        logoutParams: {
+          returnTo: SITE_URL
+        }
+      });
+    };
+
+    if (isAuthenticated) {
+      loginScreen.classList.add("hidden");
+      appContent.classList.remove("hidden");
+      logoutBtn.hidden = false;
+      init();
+    } else {
+      loginScreen.classList.remove("hidden");
+      appContent.classList.add("hidden");
+      logoutBtn.hidden = true;
+    }
+  } catch (e) {
+    loginError.hidden = false;
+    loginError.textContent = "Błąd Auth0: " + (e.message || "Nie udało się uruchomić logowania.");
+  }
+}
+
+initAuth();
