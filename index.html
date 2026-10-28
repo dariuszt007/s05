@@ -8,26 +8,25 @@
   />
   <title>Lista</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- 1. DODANO: Oficjalna biblioteka Auth0 z bezpiecznego źródła CDN -->
+  <!-- Oficjalna biblioteka Auth0 -->
   <script src="https://auth0.com"></script>
 </head>
 <body>
-  <!-- Ekran logowania (widoczny domyślnie, dopóki Auth0 nie potwierdzi logowania) -->
+  <!-- Nowy ekran logowania Auth0 (całkowicie usunięte stare pola na hasło) -->
   <div id="loginScreen" class="login-screen">
     <div class="login-card">
       <h1>Lista 吹田南（小）</h1>
-      <p class="login-text">Ta strona jest chroniona przez Auth0.</p>
+      <p class="login-text">Ta strona jest bezpiecznie chroniona przez Auth0.</p>
 
-      <!-- 2. ZMIENIONO: Prosty przycisk uruchamiający bezpieczne logowanie zamiast starego formularza -->
       <div class="login-form">
-        <button type="button" id="auth0LoginBtn" style="width: 100%; padding: 12px; font-size: 16px; cursor: pointer;">
-          Zaloguj się bezpiecznie
+        <button type="button" id="auth0LoginBtn" style="width: 100%; padding: 12px; font-size: 16px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 4px; font-weight: bold;">
+          Zaloguj się
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Główna zawartość aplikacji (początkowo ukryta przez klasę 'hidden') -->
+  <!-- Główna zawartość aplikacji -->
   <div class="app hidden" id="appContent">
     <section class="list-panel">
       <div class="topbar">
@@ -35,8 +34,8 @@
           <button type="button" id="toggleToolbarBtn" class="toggle-toolbar-btn">
             Ukryj
           </button>
-          <!-- 3. DODANO: Przycisk wylogowania w prawym górnym rogu panelu -->
-          <button type="button" id="auth0LogoutBtn" style="margin-left: 10px; background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+          <!-- Przycisk wylogowania dla użytkownika -->
+          <button type="button" id="auth0LogoutBtn" style="margin-left: 10px; background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 14px;">
             Wyloguj
           </button>
           <p id="syncStatus" class="sync-status" aria-live="polite"></p>
@@ -177,7 +176,7 @@
   <!-- Twój główny skrypt logiki aplikacji -->
   <script src="app.js"></script>
 
-  <!-- 4. DODANO: Skrypt obsługujący integrację z Auth0 -->
+  <!-- Skrypt Auth0 -->
   <script>
     let auth0Client = null;
 
@@ -188,7 +187,6 @@
     };
 
     window.addEventListener('load', async () => {
-        // Inicjalizacja klienta Auth0
         auth0Client = await auth0.createAuth0Client({
             domain: auth0Config.domain,
             client_id: auth0Config.clientId,
@@ -197,33 +195,27 @@
             }
         });
 
-        // Obsługa powrotu z zewnętrznego formularza logowania Auth0
         const query = window.location.search;
         if (query.includes("code=") && query.includes("state=")) {
             await auth0Client.handleRedirectCallback();
             window.history.replaceState({}, document.title, window.location.pathname);
         }
 
-        // Sprawdzenie stanu zalogowania
         const isAuthenticated = await auth0Client.isAuthenticated();
 
         if (isAuthenticated) {
-            // Użytkownik zalogowany - ukryj ekran logowania, pokaż aplikację
             document.getElementById("loginScreen").classList.add("hidden");
             document.getElementById("appContent").classList.remove("hidden");
         } else {
-            // Użytkownik niezalogowany - upewnij się, że aplikacja jest schowana
             document.getElementById("loginScreen").classList.remove("hidden");
             document.getElementById("appContent").classList.add("hidden");
         }
     });
 
-    // Reakcja na kliknięcie przycisku "Zaloguj się bezpiecznie"
     document.getElementById("auth0LoginBtn").addEventListener("click", async () => {
         await auth0Client.loginWithRedirect();
     });
 
-    // Reakcja na kliknięcie przycisku "Wyloguj"
     document.getElementById("auth0LogoutBtn").addEventListener("click", () => {
         auth0Client.logout({
             logoutParams: {
