@@ -1,66 +1,3 @@
-const REPO_PATH = "/s05/";
-const SITE_URL = "https://dariuszt007.github.io/s05/";
-
-const auth0Config = {
-  domain: "dev-zrgy8kuujx18b5rt.us.auth0.com",
-  clientId: "m9tzyP7fMWxP5ZjhMqEaE3GJaKmN247p",
-  authorizationParams: {
-    redirect_uri: SITE_URL
-  }
-};
-
-let auth0Client;
-
-async function initAuth() {
-  const loginScreen = document.getElementById("loginScreen");
-  const appContent = document.getElementById("appContent");
-  const loginBtn = document.getElementById("loginBtn");
-  const logoutBtn = document.getElementById("logoutBtn");
-  const loginError = document.getElementById("loginError");
-
-  try {
-    auth0Client = await auth0.createAuth0Client(auth0Config);
-
-    if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
-      await auth0Client.handleRedirectCallback();
-      window.history.replaceState({}, document.title, REPO_PATH);
-    }
-
-    const isAuthenticated = await auth0Client.isAuthenticated();
-
-    loginBtn.onclick = async () => {
-      try {
-        await auth0Client.loginWithRedirect();
-      } catch (e) {
-        loginError.hidden = false;
-        loginError.textContent = "Błąd logowania: " + (e.message || "Spróbuj ponownie.");
-      }
-    };
-
-    logoutBtn.onclick = async () => {
-      await auth0Client.logout({
-        logoutParams: {
-          returnTo: SITE_URL
-        }
-      });
-    };
-
-    if (isAuthenticated) {
-      loginScreen.classList.add("hidden");
-      appContent.classList.remove("hidden");
-      logoutBtn.hidden = false;
-    } else {
-      loginScreen.classList.remove("hidden");
-      appContent.classList.add("hidden");
-      logoutBtn.hidden = true;
-    }
-  } catch (e) {
-    loginError.hidden = false;
-    loginError.textContent = "Błąd Auth0: " + (e.message || "Nie udało się uruchomić logowania.");
-  }
-}
-
-
 
 const MOBILE_WIDTH = 520;
 const PASSWORD = "1234";
@@ -992,5 +929,3 @@ window.addEventListener("resize", applyResponsiveToolbarState);
 
 init();
 
-
-initAuth();
