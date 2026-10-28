@@ -8,115 +8,36 @@
   />
   <title>Lista</title>
   <link rel="stylesheet" href="style.css" />
-  <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bezpieczna Strona</title>
-    <!-- Wczytanie oficjalnej biblioteki Auth0 -->
-    <script src="https://auth0.com"></script>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; }
-        .hidden { display: none; }
-        button { padding: 10px 20px; font-size: 16px; cursor: pointer; margin-top: 20px; }
-    </style>
+  <!-- 1. DODANO: Oficjalna biblioteka Auth0 z bezpiecznego źródła CDN -->
+  <script src="https://auth0.com"></script>
 </head>
 <body>
-
-
-    <!-- Sekcja widoczna dla NIEZALOGOWANYCH -->
-    <div id="gosc-view">
-        <h1>Witaj na naszej stronie!</h1>
-        <p>Aby zobaczyć ukrytą zawartość, musisz się zalogować.</p>
-        <button id="btn-login">Zaloguj się</button>
-    </div>
-
-    <!-- Sekcja widoczna TYLKO DLA ZALOGOWANYCH -->
-    <div id="tajna-sekcja" class="hidden">
-        <h1>🔓 Strefa Zabezpieczona</h1>
-        <p>Gratulacje! Widzisz tę treść, ponieważ pomyślnie przeszedłeś weryfikację Auth0.</p>
-        <p>Twoje dane logowania są w pełni bezpieczne.</p>
-        <button id="btn-logout">Wyloguj się</button>
-    </div>
-
-    <script>
-        let auth0Client = null;
-
-        // 1. Podmień poniższe dane na Twoje z kroku 3!
-        const config = {
-            domain: "TUTAJ_WKLEJ_TWOJE_DOMAIN",
-            clientId: "TUTAJ_WKLEJ_TWOJE_CLIENT_ID"
-        };
-
-        // 2. Inicjalizacja Auth0 po załadowaniu strony
-        window.onload = async () => {
-            auth0Client = await auth0.createAuth0Client({
-                domain: config.domain,
-                clientId: config.clientId,
-                authorizationParams: {
-                    redirect_uri: window.location.href // Automatycznie bierze aktualny adres strony
-                }
-            });
-
-            // Obsługa powrotu z panelu logowania Auth0
-            const query = window.location.search;
-            if (query.includes("code=") && query.includes("state=")) {
-                await auth0Client.handleRedirectCallback();
-                // Czyszczenie paska adresu URL z tokenów Auth0
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }
-
-            // Sprawdzenie czy użytkownik jest już zalogowany
-            const isAuthenticated = await auth0Client.isAuthenticated();
-
-            if (isAuthenticated) {
-                // Pokaż ukrytą treść
-                document.getElementById("gosc-view").classList.add("hidden");
-                document.getElementById("tajna-sekcja").classList.remove("hidden");
-            } else {
-                // Pokaż ekran zachęty do logowania
-                document.getElementById("gosc-view").classList.remove("hidden");
-                document.getElementById("tajna-sekcja").classList.add("hidden");
-            }
-        };
-
-        // 3. Obsługa przycisków
-        document.getElementById("btn-login").addEventListener("click", async () => {
-            await auth0Client.loginWithRedirect();
-        });
-
-        document.getElementById("btn-logout").addEventListener("click", () => {
-            auth0Client.logout({
-                logoutParams: {
-                    returnTo: window.location.href
-                }
-            });
-        });
-    </script>
-
-  
+  <!-- Ekran logowania (widoczny domyślnie, dopóki Auth0 nie potwierdzi logowania) -->
   <div id="loginScreen" class="login-screen">
     <div class="login-card">
       <h1>Lista 吹田南（小）</h1>
-      <p class="login-text">Ta strona jest chroniona hasłem.</p>
+      <p class="login-text">Ta strona jest chroniona przez Auth0.</p>
 
-      <form id="loginForm" class="login-form">
-        <label>
-          Hasło
-          <input type="password" id="passwordInput" autocomplete="current-password" required />
-        </label>
-
-        <p id="loginError" class="login-error" hidden>Nieprawidłowe hasło.</p>
-
-        <button type="submit">Wejdź</button>
-      </form>
+      <!-- 2. ZMIENIONO: Prosty przycisk uruchamiający bezpieczne logowanie zamiast starego formularza -->
+      <div class="login-form">
+        <button type="button" id="auth0LoginBtn" style="width: 100%; padding: 12px; font-size: 16px; cursor: pointer;">
+          Zaloguj się bezpiecznie
+        </button>
+      </div>
     </div>
   </div>
 
+  <!-- Główna zawartość aplikacji (początkowo ukryta przez klasę 'hidden') -->
   <div class="app hidden" id="appContent">
     <section class="list-panel">
       <div class="topbar">
         <div class="topbar-header">
           <button type="button" id="toggleToolbarBtn" class="toggle-toolbar-btn">
             Ukryj
+          </button>
+          <!-- 3. DODANO: Przycisk wylogowania w prawym górnym rogu panelu -->
+          <button type="button" id="auth0LogoutBtn" style="margin-left: 10px; background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+            Wyloguj
           </button>
           <p id="syncStatus" class="sync-status" aria-live="polite"></p>
         </div>
@@ -253,6 +174,63 @@
     </form>
   </dialog>
 
+  <!-- Twój główny skrypt logiki aplikacji -->
   <script src="app.js"></script>
+
+  <!-- 4. DODANO: Skrypt obsługujący integrację z Auth0 -->
+  <script>
+    let auth0Client = null;
+
+    // !!! TUTAJ WKLEJ SWOJE DANE Z PANELU AUTH0 !!!
+    const auth0Config = {
+        domain: "TUTAJ_WKLEJ_TWOJE_DOMAIN",
+        clientId: "TUTAJ_WKLEJ_TWOJE_CLIENT_ID"
+    };
+
+    window.addEventListener('load', async () => {
+        // Inicjalizacja klienta Auth0
+        auth0Client = await auth0.createAuth0Client({
+            domain: auth0Config.domain,
+            client_id: auth0Config.clientId,
+            authorizationParams: {
+                redirect_uri: window.location.href
+            }
+        });
+
+        // Obsługa powrotu z zewnętrznego formularza logowania Auth0
+        const query = window.location.search;
+        if (query.includes("code=") && query.includes("state=")) {
+            await auth0Client.handleRedirectCallback();
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        // Sprawdzenie stanu zalogowania
+        const isAuthenticated = await auth0Client.isAuthenticated();
+
+        if (isAuthenticated) {
+            // Użytkownik zalogowany - ukryj ekran logowania, pokaż aplikację
+            document.getElementById("loginScreen").classList.add("hidden");
+            document.getElementById("appContent").classList.remove("hidden");
+        } else {
+            // Użytkownik niezalogowany - upewnij się, że aplikacja jest schowana
+            document.getElementById("loginScreen").classList.remove("hidden");
+            document.getElementById("appContent").classList.add("hidden");
+        }
+    });
+
+    // Reakcja na kliknięcie przycisku "Zaloguj się bezpiecznie"
+    document.getElementById("auth0LoginBtn").addEventListener("click", async () => {
+        await auth0Client.loginWithRedirect();
+    });
+
+    // Reakcja na kliknięcie przycisku "Wyloguj"
+    document.getElementById("auth0LogoutBtn").addEventListener("click", () => {
+        auth0Client.logout({
+            logoutParams: {
+                returnTo: window.location.href
+            }
+        });
+    });
+  </script>
 </body>
 </html>
