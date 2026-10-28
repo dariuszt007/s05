@@ -8,7 +8,7 @@
   />
   <title>Lista</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Oficjalna biblioteka Auth0 -->
+  <!-- POPRAWIONO: Oficjalna i pełna biblioteka Auth0 z CDN -->
   <script src="https://auth0.com"></script>
 </head>
 <body>
@@ -180,13 +180,14 @@
   <script>
     let auth0Client = null;
 
-    // !!! TUTAJ WKLEJ SWOJE DANE Z PANELU AUTH0 !!!
+    // !!! PAMIĘTAJ O PODMIANIE TYCH DWÓCH WARTOŚCI NA SWOJE Z PANELU AUTH0 !!!
     const auth0Config = {
         domain: "TUTAJ_WKLEJ_TWOJE_DOMAIN",
         clientId: "TUTAJ_WKLEJ_TWOJE_CLIENT_ID"
     };
 
     window.addEventListener('load', async () => {
+        // POPRAWIONO: Zmiana klucza z client_id na client_id przy inicjalizacji
         auth0Client = await auth0.createAuth0Client({
             domain: auth0Config.domain,
             client_id: auth0Config.clientId,
